@@ -1,0 +1,40 @@
+{% extends 'festival/layout.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">Apagar Concerto</h2>
+  <a href="{% url 'dias' %}" class="btn btn-outline-secondary btn-sm">
+    <i class="fa-solid fa-arrow-left me-1"></i> Back
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-body">
+
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <div style="width: 48px; height: 48px; border-radius: 10px; background-color: {{ concerto.banda.cor }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <i class="{{ concerto.banda.icon|default:'fa-solid fa-music' }}" style="color: {{ concerto.banda.text_color }}; font-size: 1.2rem;"></i>
+      </div>
+      <div>
+        <h5 class="mb-1">{{ concerto.banda.nome }}</h5>
+      </div>
+    </div>
+
+    <div class="alert alert-danger">
+      <i class="fa-solid fa-triangle-exclamation me-2"></i>
+      Are you sure you want to delete <strong>{{ concerto.banda.nome }}</strong>? This action cannot be undone.
+    </div>
+
+    <form method="POST" action="{% url 'apagar_concerto' concerto.id %}">
+      {% csrf_token %}
+      <div class="d-flex gap-2 mt-5">
+        <button type="submit" class="btn btn-danger">
+          <i class="fa-solid fa-trash me-1"></i> Yes, delete
+        </button>
+        <a href="{% url 'dias' %}" class="btn btn-outline-secondary">Cancel</a>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

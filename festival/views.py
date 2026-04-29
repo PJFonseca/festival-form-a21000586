@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Dia, Palco, Concerto               
+from .models import Dia, Palco, Concerto             
 from .forms import ConcertoForm, PalcoForm
 
 
@@ -47,3 +47,16 @@ def editar_concerto_view(request, concerto_id):
     }
 
     return render(request, 'festival/editar_concerto.html', context)
+
+def apagar_concerto_view(request, concerto_id):
+    concerto = get_object_or_404(Concerto, id=concerto_id)
+
+    if request.method == 'POST':
+        concerto.delete()
+        return redirect('dias')
+
+    context = {
+        'concerto': concerto,
+    }
+
+    return render(request, 'festival/concerto_apagar.html', context)
