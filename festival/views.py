@@ -21,6 +21,24 @@ def palcos_view(request):
 
     return render(request, 'festival/palcos.html', context)
 
+def editar_palco_view(request, palco_id):
+    palco = get_object_or_404(Palco, id=palco_id)
+
+    if request.method == 'POST':
+        form = PalcoForm(request.POST, request.FILES, instance=palco)
+        if form.is_valid():
+            form.save()
+            return redirect('palcos')
+    else:
+        form = PalcoForm(instance=palco)
+
+    context = {
+        'palco': palco,
+        'form': form,
+    }
+
+    return render(request, 'festival/editar_palco.html', context)
+
 
 def concerto_view(request, concerto_id):
     concerto = Concerto.objects.get(id=concerto_id)

@@ -6,7 +6,9 @@
 {% for palco in palcos %}
 <div style="display: flex; align-items: center; gap: 12px;">
     <h2>{{ palco.nome }}</h2>
-    <a href="" class="btn">Editar palco</a>
+    <p>Capacidade: {{ palco.capacidade }}</p>
+    <p>Acessibilidade para mobilidade reduzida: {{ palco.acessibilidade_mobilidade_reduzida|yesno:"Sim,Não" }}</p>
+    <a href="{% url 'editar_palco' palco.id %}" class="btn">Editar palco</a>
 </div>
 
     {% if palco.imagem %}
