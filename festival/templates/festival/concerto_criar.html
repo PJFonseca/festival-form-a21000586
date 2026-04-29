@@ -1,0 +1,70 @@
+{% extends 'festival/layout.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">{{ action }} Concerto</h2>
+  <a href="{% url 'dias' %}" class="btn btn-outline-secondary btn-sm">
+    <i class="fa-solid fa-arrow-left me-1"></i> Back
+  </a>
+</div>
+
+<div style="background: var(--bs-body-bg); border: 1px solid var(--bs-border-color); border-radius: 12px; padding: 1.75rem;">
+
+  <div style="margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--bs-border-color);">
+    <p class="text-muted mb-0" style="font-size: 13px;">Detalhes do concerto</p>
+    <p class="mb-0 fw-medium fs-5">Criar concerto</p>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="banda" class="form-label small text-muted fw-medium">Banda</label>
+      <select id="banda" name="banda" class="form-select" required>
+        <option value="">Seleciona uma banda</option>
+        {% for banda in bandas %}
+          <option value="{{ banda.id }}" {% if concerto and concerto.banda.id == banda.id %}selected{% endif %}>
+            {{ banda.nome }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <select id="dia" name="dia" class="form-select" required>
+        <option value="">Seleciona um dia</option>
+        {% for dia in dias %}
+          <option value="{{ dia.id }}" {% if concerto and concerto.dia.id == dia.id %}selected{% endif %}>
+            {{ dia.data|date:'d/m/Y' }}
+          </option>
+        {% endfor %}
+      </select>
+      <div class="col">
+        <label for="hora" class="form-label small text-muted fw-medium">Hora</label>
+        <input type="time" id="hora" name="hora" class="form-control" value="{{ concerto.hora|time:'H:i' }}" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="palco" class="form-label small text-muted fw-medium">Palco</label>
+      <select id="palco" name="palco" class="form-select" required>
+        <option value="">Seleciona um palco</option>
+        {% for palco in palcos %}
+          <option value="{{ palco.id }}" {% if concerto and concerto.palco.id == palco.id %}selected{% endif %}>
+            {{ palco.nome }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fa-solid fa-save me-1"></i> Guardar
+      </button>
+      <a href="{% url 'dias' %}" class="btn btn-outline-secondary w-100">Cancelar</a>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}
