@@ -7,7 +7,7 @@ def index_view(request):
     return render(request, 'festival/index.html')
 
 def dias_view(request):
-    dias = Dia.objects.all()
+    dias = Dia.objects.all().order_by('data')
 
     context = {'dias': dias}
 
